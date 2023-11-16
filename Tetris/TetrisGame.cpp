@@ -86,7 +86,7 @@ void TetrisGame::reset() {
 // - params: none
 // - return: nothing
 void TetrisGame::pickNextShape() {
-	TetShape shape = static_cast<TetShape>(rand % static_cast<int>(TetShape::COUNT));
+	TetShape shape = static_cast<TetShape>(rand() % static_cast<int>(TetShape::COUNT));
 	nextShape.setShape(shape);
 }
 

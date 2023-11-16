@@ -16,6 +16,10 @@ TetrisGame::TetrisGame(sf::RenderWindow& window, sf::Sprite& blockSprite, const 
 		assert(false && "Missing font style: RedOctober.ttf");
 	}
 	
+	scoreText.setFont(scoreFont);
+	scoreText.setCharacterSize(20);
+	scoreText.setFillColor(sf::Color::White);
+	scoreText.setPosition(50, 50);
 }
 
 // Draw anything to do with the game,

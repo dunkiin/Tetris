@@ -2,6 +2,7 @@
 #include "Gameboard.h"
 #include <iostream>
 #include <cassert>
+#include <cstdlib>	
 #define print(x) std::cout << x << '\n'
 
 // constructor
@@ -85,7 +86,8 @@ void TetrisGame::reset() {
 // - params: none
 // - return: nothing
 void TetrisGame::pickNextShape() {
-	TetShape shape = static_cast<TetShape>(rand % )));
+	TetShape shape = static_cast<TetShape>(rand % static_cast<int>(TetShape::COUNT));
+	nextShape.setShape(shape);
 }
 
 // copy the nextShape into the currentShape (through assignment)
@@ -105,7 +107,13 @@ bool TetrisGame::spawnNextShape() {
 // - param 1: GridTetromino shape
 // - return: bool, true/false to indicate successful movement
 bool TetrisGame::attemptRotate(GridTetromino shape) {
-
+	GridTetromino tempShape = shape;
+	tempShape.rotateClockwise();
+	if (isPositionLegal(tempShape)) {
+		shape = tempShape;
+		return true;
+	}
+	return false;
 }
 
 // test if a move is legal on the tetromino, if so, move it.

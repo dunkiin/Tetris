@@ -95,7 +95,7 @@ void TetrisGame::pickNextShape() {
 // - params: none
 // - return: bool, true/false based on isPositionLegal()
 bool TetrisGame::spawnNextShape() {
-
+	return true;
 }
 
 // Test if a rotation is legal on the tetromino and if so, rotate it. 
@@ -127,7 +127,13 @@ bool TetrisGame::attemptRotate(GridTetromino shape) {
 // - param 3: int y;
 // - return: true/false to indicate successful movement
 bool TetrisGame::attemptMove(GridTetromino shape, int x, int y) {
-
+	GridTetromino tempShape = shape;
+	tempShape.move(x, y);
+	if (isPositionLegal(tempShape)) {
+		shape = tempShape;
+		return true;
+	}
+	return false;
 }
 
 // drops the tetromino vertically as far as it can 
@@ -210,7 +216,7 @@ void TetrisGame::updateScoreDisplay() {
 // - return: bool, true if shape is within borders (isWithinBorders()) and 
 //           the shape's mapped board locs are empty (false otherwise).
 bool TetrisGame::isPositionLegal(GridTetromino shape) const {
-
+	return true;
 }
 
 
@@ -222,7 +228,7 @@ bool TetrisGame::isPositionLegal(GridTetromino shape) const {
 // - return: bool, true if the shape is within the left, right, and lower border
 //	         of the grid, but *NOT* the top border (false otherwise)
 bool TetrisGame::isWithinBorders(GridTetromino shape) const {
-
+	return true;
 }
 
 

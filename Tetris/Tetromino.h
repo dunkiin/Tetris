@@ -20,7 +20,8 @@ enum class TetShape {
 	J,
 	O,
 	I,
-	T
+	T,
+	COUNT
 };
 
 class Tetromino {

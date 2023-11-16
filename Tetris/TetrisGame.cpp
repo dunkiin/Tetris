@@ -2,6 +2,7 @@
 #include "Gameboard.h"
 #include <iostream>
 #include <cassert>
+#define print(x) std::cout << x << '\n'
 
 // constructor
 	//   initialize/assign private member vars names that match param names
@@ -56,7 +57,11 @@ void TetrisGame::processGameLoop(float secondsSinceLastLoop) {
 // - params: none
 // - return: nothing
 void TetrisGame::tick() {
+	print("tick");
 
+	if (!attemptMove(currentShape, 0, 1)) {
+		lock(currentShape);
+	}
 }
 
 // reset everything for a new game (use existing functions) 

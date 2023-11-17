@@ -162,7 +162,7 @@ bool TetrisGame::attemptMove(GridTetromino& shape, int x, int y) {
 // - param 1: GridTetromino shape
 // - return: nothing;
 void TetrisGame::drop(GridTetromino& shape) {
-
+	while (attemptMove(shape, 0, 1));
 }
 
 // copy the contents (color) of the tetromino's mapped block locs to the grid.

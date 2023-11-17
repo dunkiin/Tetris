@@ -26,8 +26,8 @@ void GridTetromino::move(int xOffset, int yOffset) {
 std::vector<Point> GridTetromino::getBlockLocsMappedToGrid() const {
 	std::vector<Point> mappedLocs;
 
-	for (int i = 0; i < blockLocs.size(); i++) {
-		mappedLocs.push_back(Point(blockLocs[i].getX() + gridLoc.getX(), blockLocs[i].getY() + gridLoc.getY()));
+	for (auto& blockLoc : blockLocs) {
+		mappedLocs.push_back(Point(blockLoc.getX() + gridLoc.getX(), blockLoc.getY() + gridLoc.getY()));
 	}
 
 	return mappedLocs;

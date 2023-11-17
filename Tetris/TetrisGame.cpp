@@ -41,7 +41,22 @@ void TetrisGame::draw() {
 // - param 1: sf::Event event
 // - return: nothing
 void TetrisGame::onKeyPressed(sf::Event event) {
-
+	if (event.key.code == sf::Keyboard::Up) {
+		attemptRotate(currentShape);
+	}
+	else if (event.key.code == sf::Keyboard::Left) {
+		attemptMove(currentShape, -1, 0);
+	}
+	else if (event.key.code == sf::Keyboard::Right) {
+		attemptMove(currentShape, 1, 0);
+	}
+	else if (event.key.code == sf::Keyboard::Down) {
+		attemptMove(currentShape, 0, 1);
+	}
+	else if (event.key.code == sf::Keyboard::Space) {
+		drop(currentShape);
+		lock(currentShape);
+	}
 }
 
 // called every game loop to handle ticks & tetromino placement (locking)
@@ -95,7 +110,12 @@ void TetrisGame::pickNextShape() {
 // - params: none
 // - return: bool, true/false based on isPositionLegal()
 bool TetrisGame::spawnNextShape() {
-	return true;
+	currentShape = nextShape;
+
+	if (isPositionLegal(currentShape)) {
+		return true;
+	}
+	return false;
 }
 
 // Test if a rotation is legal on the tetromino and if so, rotate it. 
@@ -106,7 +126,7 @@ bool TetrisGame::spawnNextShape() {
 //      if so - rotate the original tetromino.
 // - param 1: GridTetromino shape
 // - return: bool, true/false to indicate successful movement
-bool TetrisGame::attemptRotate(GridTetromino shape) {
+bool TetrisGame::attemptRotate(GridTetromino& shape) {
 	GridTetromino tempShape = shape;
 	tempShape.rotateClockwise();
 	if (isPositionLegal(tempShape)) {
@@ -126,7 +146,7 @@ bool TetrisGame::attemptRotate(GridTetromino shape) {
 // - param 2: int x;
 // - param 3: int y;
 // - return: true/false to indicate successful movement
-bool TetrisGame::attemptMove(GridTetromino shape, int x, int y) {
+bool TetrisGame::attemptMove(GridTetromino& shape, int x, int y) {
 	GridTetromino tempShape = shape;
 	tempShape.move(x, y);
 	if (isPositionLegal(tempShape)) {
@@ -140,7 +160,7 @@ bool TetrisGame::attemptMove(GridTetromino shape, int x, int y) {
 //   legally go.  Use attemptMove(). This can be done in 1 line.
 // - param 1: GridTetromino shape
 // - return: nothing;
-void TetrisGame::drop(GridTetromino shape) {
+void TetrisGame::drop(GridTetromino& shape) {
 
 }
 
@@ -151,7 +171,7 @@ void TetrisGame::drop(GridTetromino shape) {
 	//      to true
 	// - param 1: GridTetromino shape
 	// - return: nothing
-void TetrisGame::lock(GridTetromino shape) {
+void TetrisGame::lock(GridTetromino& shape) {
 
 }
 
@@ -215,8 +235,11 @@ void TetrisGame::updateScoreDisplay() {
 // - param 1: GridTetromino shape
 // - return: bool, true if shape is within borders (isWithinBorders()) and 
 //           the shape's mapped board locs are empty (false otherwise).
-bool TetrisGame::isPositionLegal(GridTetromino shape) const {
-	return true;
+bool TetrisGame::isPositionLegal(const GridTetromino& shape) const {
+	if (board.areAllLocsEmpty(shape.getBlockLocsMappedToGrid()) && isWithinBorders(shape) && board.areAllLocsEmpty(shape.getBlockLocsMappedToGrid())) {
+		return true;
+	}
+	return false;
 }
 
 
@@ -227,8 +250,8 @@ bool TetrisGame::isPositionLegal(GridTetromino shape) const {
 // - param 1: GridTetromino shape
 // - return: bool, true if the shape is within the left, right, and lower border
 //	         of the grid, but *NOT* the top border (false otherwise)
-bool TetrisGame::isWithinBorders(GridTetromino shape) const {
-	return true;
+bool TetrisGame::isWithinBorders(const GridTetromino& shape) const {
+
 }
 
 

@@ -188,7 +188,7 @@ private:
 	// param 1: GridTetromino tetromino
 	// param 2: Point topLeft
 	// return: nothing
-	void drawTetromino(GridTetromino tetromino, Point topLeft);
+	void drawTetromino(const GridTetromino& tetromino, Point topLeft);
 	
 	// update the score display
 	// form a string "score: ##" to display the current score

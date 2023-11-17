@@ -259,7 +259,14 @@ bool TetrisGame::isPositionLegal(const GridTetromino& shape) const {
 // - return: bool, true if the shape is within the left, right, and lower border
 //	         of the grid, but *NOT* the top border (false otherwise)
 bool TetrisGame::isWithinBorders(const GridTetromino& shape) const {
+	std::vector<Point> blockLocs = shape.getBlockLocsMappedToGrid();
 
+	for (const Point& blockLoc : blockLocs) {
+		if (blockLoc.getX() >= 0 && blockLoc.getX() < Gameboard::MAX_X && blockLoc.getY() < Gameboard::MAX_Y) {
+			return true;
+		}
+		return false;
+	}
 }
 
 

@@ -20,9 +20,9 @@ TetrisGame::TetrisGame(sf::RenderWindow& window, sf::Sprite& blockSprite, const 
 	}
 	
 	scoreText.setFont(scoreFont);
-	scoreText.setCharacterSize(20);
+	scoreText.setCharacterSize(18);
 	scoreText.setFillColor(sf::Color::White);
-	scoreText.setPosition(50, 50);
+	scoreText.setPosition(425, 325);
 }
 
 // Draw anything to do with the game,
@@ -173,7 +173,16 @@ void TetrisGame::drop(GridTetromino& shape) {
 	// - param 1: GridTetromino shape
 	// - return: nothing
 void TetrisGame::lock(GridTetromino& shape) {
+	std::vector<Point> mappedLocs = shape.getBlockLocsMappedToGrid();
 
+	for (const Point& loc : mappedLocs) {
+		if () {
+			
+		}
+	}
+
+	// set shapePlacedSinceLastGameLoop status
+	shapePlacedSinceLastGameLoop = true;
 }
 
 // Graphics methods ==============================================

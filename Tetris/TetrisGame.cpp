@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cassert>
 #include <cstdlib>	
+#include <vector>
 #define print(x) std::cout << x << '\n'
 
 // constructor
@@ -214,8 +215,15 @@ void TetrisGame::drawGameboard() {
 // param 1: GridTetromino tetromino
 // param 2: Point topLeft
 // return: nothing
-void TetrisGame::drawTetromino(GridTetromino tetromino, Point topLeft) {
+void TetrisGame::drawTetromino(const GridTetromino& tetromino, Point topLeft) {
+	std::vector<Point>blockLocs = tetromino.getBlockLocsMappedToGrid();
 
+	for (const Point& blockLoc : blockLocs) {
+		int xOffset = blockLoc.getX();
+		int yOffset = blockLoc.getY();
+
+		drawBlock(topLeft, xOffset, yOffset, tetromino.getColor());
+	}
 }
 
 // update the score display

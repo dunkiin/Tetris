@@ -124,7 +124,7 @@ private:
 	//      if so - rotate the original tetromino.
 	// - param 1: GridTetromino shape
 	// - return: bool, true/false to indicate successful movement
-	bool attemptRotate(GridTetromino shape);
+	bool attemptRotate(GridTetromino& shape);
    
 	// test if a move is legal on the tetromino, if so, move it.
 	//  To do this:
@@ -136,13 +136,13 @@ private:
 	// - param 2: int x;
 	// - param 3: int y;
 	// - return: true/false to indicate successful movement
-	bool attemptMove(GridTetromino shape, int x, int y);
+	bool attemptMove(GridTetromino& shape, int x, int y);
 
 	// drops the tetromino vertically as far as it can 
 	//   legally go.  Use attemptMove(). This can be done in 1 line.
 	// - param 1: GridTetromino shape
 	// - return: nothing;
-	void drop(GridTetromino shape);
+	void drop(GridTetromino& shape);
 
 	// copy the contents (color) of the tetromino's mapped block locs to the grid.
 		//	 1) get the tetromino's mapped locs via tetromino.getBlockLocsMappedToGrid()
@@ -151,7 +151,7 @@ private:
 		//      to true
 		// - param 1: GridTetromino shape
 		// - return: nothing
-	void lock(GridTetromino shape);
+	void lock(GridTetromino& shape);
 	
 	// Graphics methods ==============================================
 	
@@ -205,7 +205,7 @@ private:
 	// - param 1: GridTetromino shape
 	// - return: bool, true if shape is within borders (isWithinBorders()) and 
 	//           the shape's mapped board locs are empty (false otherwise).
-	bool isPositionLegal(GridTetromino shape) const;
+	bool isPositionLegal(const GridTetromino& shape) const;
 
 	
 	// Determine if the shape is within the left, right, & bottom gameboard borders
@@ -215,7 +215,7 @@ private:
 	// - param 1: GridTetromino shape
 	// - return: bool, true if the shape is within the left, right, and lower border
 	//	         of the grid, but *NOT* the top border (false otherwise)
-	bool isWithinBorders(GridTetromino shape) const;
+	bool isWithinBorders(const GridTetromino& shape) const;
 
 
 	// set secsPerTick 

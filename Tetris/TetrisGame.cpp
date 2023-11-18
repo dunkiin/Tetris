@@ -173,13 +173,7 @@ void TetrisGame::drop(GridTetromino& shape) {
 	// - param 1: GridTetromino shape
 	// - return: nothing
 void TetrisGame::lock(GridTetromino& shape) {
-	std::vector<Point> mappedLocs = shape.getBlockLocsMappedToGrid();
-
-	for (const Point& loc : mappedLocs) {
-		if () {
-			
-		}
-	}
+	board.setContent(shape.getBlockLocsMappedToGrid(), static_cast<int>(shape.getColor()));
 
 	// set shapePlacedSinceLastGameLoop status
 	shapePlacedSinceLastGameLoop = true;
@@ -214,7 +208,13 @@ void TetrisGame::drawBlock(Point topLeft, int xOffset, int yOffset, TetColor col
 // params: none
 // return: nothing
 void TetrisGame::drawGameboard() {
-
+	for (int y = 0; y < Gameboard::MAX_Y; y++) {
+		for (int x = 0; x < Gameboard::MAX_X; x++) {
+			if (board.getContent(x, y) != Gameboard::EMPTY_BLOCK) {
+				drawBlock(gameboardOffset, x, y, static_cast<TetColor>(board.getContent(x, y)));
+			}
+		}
+	}
 }
 
 // Draw a tetromino on the window

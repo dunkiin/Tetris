@@ -6,6 +6,11 @@
 #include <vector>
 #define print(x) std::cout << x << '\n'
 
+const int TetrisGame::BLOCK_WIDTH = 32;              // pixel width of a tetris block, init to 32
+const int TetrisGame::BLOCK_HEIGHT = 32;              // pixel height of a tetris block, int to 32
+const double TetrisGame::MAX_SECONDS_PER_TICK = 0.75; // the slowest "tick" rate (in seconds), init to 0.75
+const double TetrisGame::MIN_SECONDS_PER_TICK = 0.20; // the fastest "tick" rate (in seconds), init to 0.20
+
 // constructor
 	//   initialize/assign private member vars names that match param names
 	//   reset() the game
@@ -31,9 +36,10 @@ TetrisGame::TetrisGame(sf::RenderWindow& window, sf::Sprite& blockSprite, const 
 // - params: none
 // - return: nothing
 void TetrisGame::draw() {
-	drawGameboard(); 
+	
 	drawTetromino(currentShape, gameboardOffset);
 	drawTetromino(nextShape, nextShapeOffset);
+	drawGameboard();
 	window.draw(scoreText);
 }
 
@@ -64,6 +70,14 @@ void TetrisGame::onKeyPressed(sf::Event event) {
 // - param 1: float secondsSinceLastLoop
 // return: nothing
 void TetrisGame::processGameLoop(float secondsSinceLastLoop) {
+	secondsPerTick += secondsSinceLastLoop;
+
+	if (secondsSinceLastLoop > secondsPerTick) {
+
+		secondsSinceLastLoop -= secondsPerTick;
+
+		tick();
+	}
 
 }
 
@@ -199,7 +213,9 @@ void TetrisGame::lock(GridTetromino& shape) {
 // param 4: TetColor color
 // return: nothing
 void TetrisGame::drawBlock(Point topLeft, int xOffset, int yOffset, TetColor color) {
-
+	blockSprite.setTextureRect(sf::IntRect(BLOCK_WIDTH * static_cast<int>(color), 0, BLOCK_HEIGHT, BLOCK_HEIGHT));
+	blockSprite.setPosition(topLeft.getX() + xOffset * BLOCK_WIDTH, topLeft.getY() + yOffset * BLOCK_HEIGHT);
+	window.draw(blockSprite);
 }
 
 // Draw the gameboard blocks on the window
@@ -274,8 +290,9 @@ bool TetrisGame::isWithinBorders(const GridTetromino& shape) const {
 		if (blockLoc.getX() >= 0 && blockLoc.getX() < Gameboard::MAX_X && blockLoc.getY() < Gameboard::MAX_Y) {
 			return true;
 		}
-		return false;
+		
 	}
+	return false;
 }
 
 

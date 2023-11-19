@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="images">
+      <UniqueIdentifier>{09fd1023-edb8-4252-86bb-89525d3fc2b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -59,5 +62,13 @@
     <ClInclude Include="GridTetromino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\background.png">
+      <Filter>images</Filter>
+    </Image>
+    <Image Include="images\tiles.png">
+      <Filter>images</Filter>
+    </Image>
   </ItemGroup>
 </Project>

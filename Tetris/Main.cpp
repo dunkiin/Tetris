@@ -3,69 +3,85 @@
 #include "TetrisGame.h"
 #include "TestSuite.h"
 
+void loadTexture(sf::Texture& texture, const std::string& file) {
+	if (!texture.loadFromFile(file)) {
+		throw std::exception("Missing File\n");
+	}
+}
+
 
 int main()
 {	
-	// run some sanity tests on our classes to ensure they're working as expected.
-	TestSuite::runTestSuite();
+	try {
+		// run some sanity tests on our classes to ensure they're working as expected.
+		TestSuite::runTestSuite();
 
-	sf::Sprite blockSprite;			// the tetromino block sprite
-	sf::Texture blockTexture;		// the tetromino block texture
-	sf::Sprite backgroundSprite;	// the background sprite
-	sf::Texture backgroundTexture;	// the background texture
+		sf::Sprite blockSprite;			// the tetromino block sprite
+		sf::Texture blockTexture;		// the tetromino block texture
+		sf::Sprite backgroundSprite;	// the background sprite
+		sf::Texture backgroundTexture;	// the background texture
 
-	// load images
-	backgroundTexture.loadFromFile("images/background.png");// load the background sprite
-	backgroundSprite.setTexture(backgroundTexture);
+		// load images
+		loadTexture(backgroundTexture, "images/background.png");
 
-	blockTexture.loadFromFile("images/tiles.png");	// load the tetris block sprite
-	blockSprite.setTexture(blockTexture);	
+		backgroundTexture.loadFromFile("images/background.png");// load the background sprite
+		backgroundSprite.setTexture(backgroundTexture);
 
-	// create the game window
-	sf::RenderWindow window(sf::VideoMode(640, 800), "Tetris Game Window");	
-	
-	window.setFramerateLimit(30);				// set a max framerate of 30 FPS
+		blockTexture.loadFromFile("images/tiles.png");	// load the tetris block sprite
+		blockSprite.setTexture(blockTexture);
 
-	const Point gameboardOffset{ 54, 125 };		// the pixel offset of the top left of the gameboard 
-	const Point nextShapeOffset{ 490, 210 };	// the pixel offset of the next shape Tetromino
+		// create the game window
+		sf::RenderWindow window(sf::VideoMode(640, 800), "Tetris Game Window");
 
-	// set up a tetris game
-	TetrisGame game(window, blockSprite, gameboardOffset, nextShapeOffset);
+		window.setFramerateLimit(30);				// set a max framerate of 30 FPS
 
-	// set up a clock so we can determine seconds per game loop
-	sf::Clock clock;		
+		const Point gameboardOffset{ 54, 125 };		// the pixel offset of the top left of the gameboard 
+		const Point nextShapeOffset{ 490, 210 };	// the pixel offset of the next shape Tetromino
 
-	// create an event for handling userInput from the GUI (graphical user interface)
-	sf::Event guiEvent;	
+		// set up a tetris game
+		TetrisGame game(window, blockSprite, gameboardOffset, nextShapeOffset);
 
-	// the main game loop
-	while (window.isOpen())
-	{
-		// how long since the last loop (fraction of a second)		
-		float elapsedTime = clock.getElapsedTime().asSeconds();
-		clock.restart();		
+		// set up a clock so we can determine seconds per game loop
+		sf::Clock clock;
 
-		// handle any window or keyboard events that have occured since the last game loop
-		sf::Event event;
-		while (window.pollEvent(event))
+		// create an event for handling userInput from the GUI (graphical user interface)
+		sf::Event guiEvent;
+
+		// the main game loop
+		while (window.isOpen())
 		{
-			if (event.type == sf::Event::Closed)	// handle close button clicked
+			// how long since the last loop (fraction of a second)		
+			float elapsedTime = clock.getElapsedTime().asSeconds();
+			clock.restart();
+
+			// handle any window or keyboard events that have occured since the last game loop
+			sf::Event event;
+			while (window.pollEvent(event))
 			{
-				window.close();
+				if (event.type == sf::Event::Closed)	// handle close button clicked
+				{
+					window.close();
+				}
+				else if (event.type == sf::Event::KeyPressed)
+				{
+					game.onKeyPressed(event);	// handle key press
+				}
 			}
-			else if (event.type == sf::Event::KeyPressed)
-			{
-				game.onKeyPressed(event);	// handle key press
-			}
+
+			game.processGameLoop(elapsedTime);	// handle tetris game logic in here.
+
+			// Draw the game to the screen
+			window.clear(sf::Color::White);	// clear the entire window
+			window.draw(backgroundSprite);	// draw the background (onto the window) 				
+			game.draw();					// draw the game (onto the window)
+			window.display();				// re-display the entire window
 		}
-
-		game.processGameLoop(elapsedTime);	// handle tetris game logic in here.
-
-		// Draw the game to the screen
-		window.clear(sf::Color::White);	// clear the entire window
-		window.draw(backgroundSprite);	// draw the background (onto the window) 				
-		game.draw();					// draw the game (onto the window)
-		window.display();				// re-display the entire window
+	}
+	catch (std::exception& ex) {
+		std::cout << "caught std::exception: " << ex.what() << "\n";
+	}
+	catch (...) {
+		std::cout << "unhandled exception\n";
 	}
 	
 	return 0;

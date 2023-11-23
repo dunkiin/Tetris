@@ -70,15 +70,14 @@ void TetrisGame::onKeyPressed(sf::Event event) {
 // - param 1: float secondsSinceLastLoop
 // return: nothing
 void TetrisGame::processGameLoop(float secondsSinceLastLoop) {
-	secondsPerTick += secondsSinceLastLoop;
+	static float timeAccumulator = 0;
+	timeAccumulator += secondsSinceLastLoop;
 
-	if (secondsSinceLastLoop > secondsPerTick) {
-
-		secondsSinceLastLoop -= secondsPerTick;
-
+	if (timeAccumulator >= secondsPerTick) {
+		timeAccumulator -= secondsPerTick;
 		tick();
 	}
-
+	determineSecondsPerTick();
 }
 
 // A tick() forces the currentShape to move (if there were no tick,
@@ -126,7 +125,7 @@ void TetrisGame::pickNextShape() {
 // - return: bool, true/false based on isPositionLegal()
 bool TetrisGame::spawnNextShape() {
 	currentShape = nextShape;
-
+	currentShape.setGridLoc(board.getSpawnLoc());
 	if (isPositionLegal(currentShape)) {
 		return true;
 	}
@@ -191,6 +190,7 @@ void TetrisGame::lock(GridTetromino& shape) {
 
 	// set shapePlacedSinceLastGameLoop status
 	shapePlacedSinceLastGameLoop = true;
+	board.printToConsole();
 }
 
 // Graphics methods ==============================================
@@ -269,7 +269,7 @@ void TetrisGame::updateScoreDisplay() {
 // - return: bool, true if shape is within borders (isWithinBorders()) and 
 //           the shape's mapped board locs are empty (false otherwise).
 bool TetrisGame::isPositionLegal(const GridTetromino& shape) const {
-	if (board.areAllLocsEmpty(shape.getBlockLocsMappedToGrid()) && isWithinBorders(shape) && board.areAllLocsEmpty(shape.getBlockLocsMappedToGrid())) {
+	if (isWithinBorders(shape)) {
 		return true;
 	}
 	return false;
@@ -287,12 +287,12 @@ bool TetrisGame::isWithinBorders(const GridTetromino& shape) const {
 	std::vector<Point> blockLocs = shape.getBlockLocsMappedToGrid();
 
 	for (const Point& blockLoc : blockLocs) {
-		if (blockLoc.getX() >= 0 && blockLoc.getX() < Gameboard::MAX_X && blockLoc.getY() < Gameboard::MAX_Y) {
-			return true;
+		if (blockLoc.getX() < 0 || blockLoc.getX() >= Gameboard::MAX_X || blockLoc.getY() >= Gameboard::MAX_Y) {
+			return false;
 		}
 		
 	}
-	return false;
+	return true;
 }
 
 

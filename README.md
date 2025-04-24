@@ -13,7 +13,7 @@ A classic Tetris clone built in C++ using the SFML (Simple and Fast Multimedia L
 
 ---
 
-🎮 Controls
+## 🎮 Controls
 
 | Key	| Action |
 | ----------- | ----------- |
